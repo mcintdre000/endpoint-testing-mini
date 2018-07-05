@@ -1,17 +1,39 @@
 {
 	"info": {
+		"_postman_id": "e669da14-2b7d-4907-a34f-eeceec3a0c41",
 		"name": "Enpoint Testing Mini Project",
-		"_postman_id": "19cc9f3c-5c32-bb75-dcf4-389952be47f0",
-		"description": "",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
 			"name": "GET - All Students",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c303f5f1-87e7-4033-bfe3-86332616034d",
+						"type": "text/javascript",
+						"exec": [
+							"const response = pm.response.json();",
+							"",
+							"pm.test('Response status is 200', () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test('Response has all 20 students', () => {",
+							"    pm.expect(response.length).to.eql(20);",
+							"});"
+						]
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "localhost:4000/api/students",
 					"host": [
@@ -22,17 +44,46 @@
 						"api",
 						"students"
 					]
-				},
-				"description": ""
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "GET - Student By Id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b01a2fc9-18bc-4f8f-b94d-ff55ae111aa4",
+						"type": "text/javascript",
+						"exec": [
+							"const response = pm.response.json();",
+							"const student = {",
+							"    \"id\": 9,",
+							"    \"student\": \"Patsy Daunay\",",
+							"    \"email_address\": \"pdaunay8@about.com\",",
+							"    \"phone\": \"(806) 2654555\",",
+							"    \"current_grade\": \"A\"",
+							"};",
+							"",
+							"pm.test('Response status is 200', () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test('Response has correct student info', () => {",
+							"    pm.expect(response).to.eql(student);",
+							"});"
+						]
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "localhost:4000/api/students/9",
 					"host": [
@@ -44,45 +95,92 @@
 						"students",
 						"9"
 					]
-				},
-				"description": ""
+				}
 			},
 			"response": []
-    },
-    {
-      "name": "GET - Students By Email",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "body": {},
-        "url": {
-          "raw": "localhost:4000/api/students?email=gdee@clickbank.net",
-          "host": [
-            "localhost"
-          ],
-          "port": "4000",
-          "path": [
-            "api",
-            "students"
-          ],
-          "query": [
-            {
-              "key": "email",
-              "value": "gdee@clickbank.net",
-              "equals": true
-            }
-          ]
-        },
-        "description": ""
-      },
-      "response": []
-    },
+		},
 		{
-			"name": "GET - Students By Name",
+			"name": "GET - Students By Email",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "aeb5fdd0-1912-4253-81de-3383e0355b07",
+						"type": "text/javascript",
+						"exec": [
+							"const response = pm.response.json();",
+							"",
+							"pm.test('Response status is 200', () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test('Response has correct student email', () => {",
+							"    pm.expect(response[0].email_address).to.eql(\"gdee@clickbank.net\");",
+							"});"
+						]
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "localhost:4000/api/students?email=gdee@clickbank.net",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"students"
+					],
+					"query": [
+						{
+							"key": "email",
+							"value": "gdee@clickbank.net"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET - Students By Name",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e9fc9e1d-d5f2-40a5-9c26-f1b480d7c5a3",
+						"type": "text/javascript",
+						"exec": [
+							"const response = pm.response.json();",
+							"",
+							"pm.test('Response status is 200', () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test('Response has correct student & grade', () => {",
+							"    const studentExists = response.some(",
+							"        student => student.student === 'Abey Laynard'",
+							"        );",
+							"    pm.expect(studentExists).to.be.true;",
+							"    ",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "localhost:4000/api/students?name=la",
 					"host": [
@@ -96,21 +194,46 @@
 					"query": [
 						{
 							"key": "name",
-							"value": "la",
-							"equals": true
+							"value": "la"
 						}
 					]
-				},
-				"description": ""
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "GET - Students By Grade",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0a3ea8d4-59ac-479f-b3ae-ad196fc15774",
+						"type": "text/javascript",
+						"exec": [
+							"const response = pm.response.json();",
+							"",
+							"",
+							"pm.test('Response status is 200', () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test('Correct students returned for \"C\" grade', () => {",
+							"    const correctGrades = response.every(",
+							"        student => student.current_grade === 'C'",
+							"        );",
+							"        pm.expect(correctGrades).to.be.true;",
+							"});"
+						]
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "localhost:4000/api/students?grade=c",
 					"host": [
@@ -124,21 +247,46 @@
 					"query": [
 						{
 							"key": "grade",
-							"value": "c",
-							"equals": true
+							"value": "c"
 						}
 					]
-				},
-				"description": ""
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "GET - Students By Phone",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "04c69bf3-a4ea-45a8-b0e8-280f82eabbe8",
+						"type": "text/javascript",
+						"exec": [
+							"const response = pm.response.json();",
+							"",
+							"",
+							"pm.test('Response status is 200', () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test('Student with phone property containing 608', () => {",
+							"    const correctPhone = response.every(",
+							"        student => student.phone.includes('608')",
+							"        );",
+							"        pm.expect(correctPhone).to.be.true;",
+							"});"
+						]
+					}
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "localhost:4000/api/students?phone=608",
 					"host": [
@@ -152,17 +300,36 @@
 					"query": [
 						{
 							"key": "phone",
-							"value": "608",
-							"equals": true
+							"value": "608"
 						}
 					]
-				},
-				"description": ""
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "PUT - Update Grade",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4cbb94e9-0a1e-40fb-8000-bb8a6d5d9f05",
+						"type": "text/javascript",
+						"exec": [
+							"const response = pm.response.json();",
+							"",
+							"pm.test('Response status is 200', () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test('Response has correct student & grade', () => {",
+							"    pm.expect(response.id).to.eql(15);",
+							"    pm.expect(response.current_grade).to.eql('C-');",
+							"});"
+						]
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [
@@ -173,7 +340,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"current_grade\": \"A-\"\n}"
+					"raw": "{\n\t\"current_grade\": \"C-\"\n}"
 				},
 				"url": {
 					"raw": "localhost:4000/api/students/15",
@@ -186,13 +353,66 @@
 						"students",
 						"15"
 					]
-				},
-				"description": ""
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "POST - Add Student",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "19169ed7-f2d2-4439-87e1-21b779b05e48",
+						"type": "text/javascript",
+						"exec": [
+							"const response = pm.response.json();",
+							"",
+							"const schema = {",
+							"    title: 'Student',",
+							"    type: 'object',",
+							"    properties: {",
+							"        id: {",
+							"            type: 'integer'",
+							"        },",
+							"        student: {",
+							"            type: 'string'",
+							"        },",
+							"        email_address: {",
+							"            type: 'string'",
+							"        },",
+							"        phone: {",
+							"            type: 'string'",
+							"        },",
+							"        current_grade: {",
+							"            type: 'string'",
+							"        }",
+							"    },",
+							"    required: ['id', 'student', 'email_address', 'phone', 'current_grade']",
+							"};",
+							"",
+							"pm.test('Response status is 200', () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test('Response student has id', () => {",
+							"    pm.expect(responseBody).to.exist;",
+							"});",
+							"",
+							"pm.test('Schema is valid', () => {",
+							"    pm.expect(tv4.validate(response, schema)).to.be.true;",
+							"});",
+							"",
+							"pm.test('Student has correct info', () => {",
+							"    pm.expect(response.student).to.eql('Tim Allen');",
+							"    pm.expect(response.email_address).to.eql('tim@homeimprovement.com');",
+							"    pm.expect(response.phone).to.eql('(408) 8674530');",
+							"});",
+							""
+						]
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -215,17 +435,40 @@
 						"api",
 						"students"
 					]
-				},
-				"description": ""
+				}
 			},
 			"response": []
 		},
 		{
 			"name": "DELETE - Remove Student",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "34739900-7fb6-4efe-ab11-fb85bb8337cc",
+						"type": "text/javascript",
+						"exec": [
+							"const response = pm.response.json();",
+							"",
+							"",
+							"pm.test('Response status is 200', () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.expect('Response student has correct ID', () => {",
+							"    pm.expect(response.id).to.eql(18);",
+							"});"
+						]
+					}
+				}
+			],
 			"request": {
 				"method": "DELETE",
 				"header": [],
-				"body": {},
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
 				"url": {
 					"raw": "localhost:4000/api/students/18",
 					"host": [
@@ -237,8 +480,7 @@
 						"students",
 						"18"
 					]
-				},
-				"description": ""
+				}
 			},
 			"response": []
 		}
